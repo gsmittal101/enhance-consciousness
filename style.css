@@ -89,6 +89,37 @@ main {
   animation: fade-up 1s ease-out both;
 }
 
+/* Logo */
+.site-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.15));
+  animation: fade-up 0.8s ease-out both;
+}
+
+/* Footer */
+.site-footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem 1rem 1.5rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  letter-spacing: 0.04em;
+}
+
+.timer-footer {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  opacity: 0.4;
+  letter-spacing: 0.04em;
+  margin-top: 0.5rem;
+}
+
 .subtitle {
   font-size: 0.85rem;
   letter-spacing: 0.35em;
