@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Enhance your consciousness through guided breathing exercises across three progressive levels." />
+  <title>Enhance Consciousness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated background particles -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Glowing orb behind heading -->
+  <div class="orb"></div>
+
+  <main>
+    <header class="hero">
+      <p class="subtitle">— Journey Inward —</p>
+      <h1 id="main-heading">Enhance <span class="accent">Consciousness</span></h1>
+      <p class="tagline">Select a mode to begin your practice</p>
+    </header>
+
+    <section class="modes" aria-label="Select a mode">
+
+      <!-- Basic -->
+      <button class="mode-card" id="mode-basic" data-mode="basic" aria-pressed="false">
+        <div class="card-glow"></div>
+        <div class="card-content">
+          <div class="icon-ring">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="18" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="32" r="6" fill="currentColor" opacity="0.5"/>
+            </svg>
+          </div>
+          <h2>Basic</h2>
+          <p class="mode-desc">Ground yourself with gentle awareness. Perfect for beginners seeking stillness.</p>
+          <div class="mode-meta">
+            <span class="badge">2 min</span>
+            <span class="badge">5 min</span>
+          </div>
+          <p class="meal-note">🍽 Practice 1 hour after a meal</p>
+        </div>
+        <div class="card-shine"></div>
+      </button>
+
+      <!-- Intermediate -->
+      <button class="mode-card" id="mode-intermediate" data-mode="intermediate" aria-pressed="false">
+        <div class="card-glow"></div>
+        <div class="card-content">
+          <div class="icon-ring">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
+              <circle cx="32" cy="32" r="13" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="32" r="5" fill="currentColor" opacity="0.6"/>
+            </svg>
+          </div>
+          <h2>Intermediate</h2>
+          <p class="mode-desc">Deepen your focus with rhythmic breathing and heightened perception.</p>
+          <div class="mode-meta">
+            <span class="badge">2 min</span>
+            <span class="badge">5 min</span>
+          </div>
+          <p class="meal-note">🍽 Practice 2 hours after a meal</p>
+        </div>
+        <div class="card-shine"></div>
+      </button>
+
+      <!-- Advance -->
+      <button class="mode-card" id="mode-advance" data-mode="advance" aria-pressed="false">
+        <div class="card-glow"></div>
+        <div class="card-content">
+          <div class="icon-ring">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 4"/>
+              <circle cx="32" cy="32" r="18" stroke="currentColor" stroke-width="2" stroke-dasharray="5 3"/>
+              <circle cx="32" cy="32" r="10" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="32" r="4" fill="currentColor" opacity="0.7"/>
+            </svg>
+          </div>
+          <h2>Advance</h2>
+          <p class="mode-desc">Transcend ordinary limits through advanced breathwork and expanded awareness.</p>
+          <div class="mode-meta">
+            <span class="badge">2 min</span>
+            <span class="badge">5 min</span>
+          </div>
+          <p class="meal-note">🍽 Practice 3 hours after a meal</p>
+        </div>
+        <div class="card-shine"></div>
+      </button>
+
+    </section>
+
+    <!-- Confirmation area -->
+    <div class="selection-status" id="selection-status" aria-live="polite"></div>
+  </main>
+
+  <!-- ═══════ Breathing Timer Overlay ═══════ -->
+  <div class="timer-overlay" id="timer-overlay" aria-hidden="true">
+    <div class="timer-container">
+
+      <!-- Back button -->
+      <button class="timer-back" id="timer-back" aria-label="Go back">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        <span>Back</span>
+      </button>
+
+      <!-- Mode label -->
+      <p class="timer-mode-label" id="timer-mode-label"></p>
+
+      <!-- Circle + text -->
+      <div class="breath-circle-wrap">
+        <!-- Pulsing background glow -->
+        <div class="breath-glow" id="breath-glow"></div>
+
+        <!-- Air flow particles -->
+        <canvas class="air-canvas" id="air-canvas"></canvas>
+
+        <svg class="breath-svg" viewBox="0 0 300 300" id="breath-svg">
+          <!-- Track ring -->
+          <circle cx="150" cy="150" r="130" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="6"/>
+          <!-- Progress ring -->
+          <circle class="breath-ring" id="breath-ring" cx="150" cy="150" r="130"
+                  fill="none" stroke-width="6" stroke-linecap="round"
+                  transform="rotate(-90 150 150)"/>
+        </svg>
+
+        <!-- Center text -->
+        <div class="breath-center">
+          <p class="breath-instruction" id="breath-instruction">Inhale</p>
+          <p class="breath-countdown" id="breath-countdown">4</p>
+        </div>
+      </div>
+
+      <!-- Session timer -->
+      <p class="session-timer" id="session-timer">2:00</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
