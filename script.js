@@ -333,6 +333,9 @@
     // Play breath sound for this phase
     playBreathSound(key, dur);
 
+    // Speak the phase name
+    speakPhase(name);
+
     // Fade instruction text
     instructionEl.classList.add("fade");
     setTimeout(() => {
@@ -369,6 +372,40 @@
     sessionEl.textContent = `${m}:${String(s).padStart(2, "0")}`;
   }
 
+  /* ═══ Voice announcement (Web Speech API) ═══ */
+  let femaleVoice = null;
+
+  function loadVoices() {
+    const voices = window.speechSynthesis.getVoices();
+    // Prefer female voices — common names across platforms
+    const femaleNames = ["zira", "samantha", "female", "fiona", "karen", "moira", "tessa", "victoria", "susan"];
+    femaleVoice = voices.find(v => {
+      const name = v.name.toLowerCase();
+      return femaleNames.some(f => name.includes(f));
+    });
+    // Fallback: pick any English voice with higher pitch
+    if (!femaleVoice) {
+      femaleVoice = voices.find(v => v.lang.startsWith("en")) || voices[0];
+    }
+  }
+
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+    loadVoices();
+  }
+
+  function speakPhase(text) {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    if (femaleVoice) utterance.voice = femaleVoice;
+    utterance.rate   = 0.75;   // slow and gentle
+    utterance.pitch  = 1.3;    // higher pitch for soft feminine tone
+    utterance.volume = 0.6;    // soft volume
+    window.speechSynthesis.speak(utterance);
+  }
+
   /* ═══ Stop / cleanup ═══ */
   function stopSession() {
     if (timerState) {
@@ -378,6 +415,7 @@
     breathDirection = "stopped";
     stopBreathSound();
     stopAirFlow();
+    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
   }
 
   /* ═══════════════════════════════════════════════════════════════════
